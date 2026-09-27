@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kharcha Vahi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A4A; --ink-soft:#3E4E6E;
+    --paper:#F5F3EE; --paper-2:#EDE9DF;
+    --line:#D8D2C2;
+    --gold:#B7862A; --gold-soft:#E7D6AE;
+    --red:#A83A32; --red-soft:#F2DAD6;
+    --green:#3F6B4A; --green-soft:#DCE7DC;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#EDE9DF; --ink-soft:#B9B6AC;
+      --paper:#181A1F; --paper-2:#22252B;
+      --line:#3A3D44; --gold:#D9AE5D; --gold-soft:#4A3D24;
+      --red:#E08277; --red-soft:#3E2422; --green:#8FC79B; --green-soft:#22301F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDE9DF; --ink-soft:#B9B6AC;
+    --paper:#181A1F; --paper-2:#22252B;
+    --line:#3A3D44; --gold:#D9AE5D; --gold-soft:#4A3D24;
+    --red:#E08277; --red-soft:#3E2422; --green:#8FC79B; --green-soft:#22301F;
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    min-height:100%;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:32px 20px 60px;}
+  h1{
+    font-family:'Lora',Georgia,serif; font-weight:600; font-size:28px;
+    margin:0 0 4px; letter-spacing:-0.01em;
+  }
+  .sub{color:var(--ink-soft); font-size:14px; margin:0 0 28px; line-height:1.5;}
+  .card{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:10px;
+    padding:20px; margin-bottom:20px;
+  }
+  .row{display:flex; justify-content:space-between; align-items:center; gap:12px;}
+  .headline{
+    font-family:'Lora',Georgia,serif; font-size:15px; font-weight:600; margin:0 0 14px;
+  }
+  label{font-size:13px; color:var(--ink-soft); display:block; margin-bottom:4px;}
+  input, select{
+    width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:6px;
+    background:var(--paper); color:var(--ink); font-family:inherit; font-size:14px;
+  }
+  input:focus, select:focus{outline:2px solid var(--gold); outline-offset:1px;}
+  .income-row{display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;}
+  .income-row > div{flex:1; min-width:140px;}
+  button{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:14px;
+    border:none; border-radius:6px; padding:9px 16px; cursor:pointer;
+    background:var(--ink); color:var(--paper);
+  }
+  button:hover{opacity:0.9;}
+  button.ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--line);}
+  .summary-num{font-family:'Lora',Georgia,serif; font-size:32px; font-weight:600;}
+  .ledger-line{
+    display:flex; align-items:center; gap:12px; padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .ledger-line:last-child{border-bottom:none;}
+  .cat-name{flex:0 0 100px; font-size:14px; font-weight:500;}
+  .bar-track{flex:1; height:8px; background:var(--paper); border-radius:4px; overflow:hidden; border:1px solid var(--line);}
+  .bar-fill{height:100%; border-radius:4px;}
+  .cat-nums{flex:0 0 128px; text-align:right; font-size:12px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+  .cat-nums b{color:var(--ink); font-size:13px;}
+  .add-row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;}
+  .add-row > div{flex:1; min-width:110px;}
+  .add-row > div.amt{flex:0 0 100px;}
+  .footnote{font-size:12px; color:var(--ink-soft); margin-top:10px; line-height:1.5;}
+  .warn{color:var(--red);}
+  .ok{color:var(--green);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kharcha Vahi</h1>
+  <p class="sub">Ek jaaga jithe tuza mahinyacha budget, category-wise balance, ani savings — sagla ekaach nazrene disel.</p>
+
+  <div class="card">
+    <p class="headline">Ya mahinyacha hishob</p>
+    <div class="income-row">
+      <div>
+        <label for="income">Mahinyachi income (₹)</label>
+        <input type="number" id="income" value="42000">
+      </div>
+      <div>
+        <label for="savingsGoal">Savings target (₹)</label>
+        <input type="number" id="savingsGoal" value="4000">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:2px;">
+      <p class="headline" style="margin:0;">Overall balance</p>
+    </div>
+    <div class="row" style="align-items:flex-end;">
+      <div>
+        <div class="summary-num" id="balanceNum">₹0</div>
+        <div class="footnote" id="balanceNote">income − kharch − savings target</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="footnote">Total kharch: <b id="totalSpent" style="color:var(--ink);">₹0</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="headline">Category-wise balance</p>
+    <div id="ledger"></div>
+    <p class="footnote">Prati category cha budget number editable ahe — tya box madhe tap karun badla.</p>
+  </div>
+
+  <div class="card">
+    <p class="headline">Navin kharch nond kara</p>
+    <div class="add-row">
+      <div>
+        <label for="newCat">Category</label>
+        <select id="newCat"></select>
+      </div>
+      <div class="amt">
+        <label for="newAmt">Amount</label>
+        <input type="number" id="newAmt" placeholder="0">
+      </div>
+      <div style="flex:0 0 auto;">
+        <button onclick="addExpense()">Jama kara</button>
+      </div>
+    </div>
+    <div class="footnote">
+      Ha kharch tya category chya balance madhun lagech vajla jail, ani tula udya ka nahi te disel.
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="headline">Kuthe kami karu shakto</p>
+    <div id="tips"></div>
+    <button class="ghost" onclick="resetAll()" style="margin-top:14px;">Sagla reset kara</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'kharcha-vahi-state-v1';
+
+// Starting point, pulled from this month's Tappy export.
+const defaultState = {
+  income: 42000,
+  savingsGoal: 4000,
+  categories: [
+    {name:'Bills',    spent:15985, budget:8000,  note:'Credit card bill — chunk of this is past dues, not this month\u2019s spending.'},
+    {name:'Personal', spent:12000, budget:4000,  note:'Includes bike EMI (₹8000) + money lent to friends. EMI is fixed; lending is the flexible part.'},
+    {name:'Room rent',spent:6500,  budget:6500,  note:'Fixed cost.'},
+    {name:'Food',     spent:4868,  budget:3000,  note:'17 separate entries — mostly small amounts that add up fast.'},
+    {name:'Other',    spent:3328,  budget:1000,  note:'Includes a one-off ₹2000 (Gate exam) — not a recurring cost.'},
+    {name:'Petrol',   spent:2700,  budget:2000,  note:''},
+    {name:'Transport',spent:2108,  budget:1000,  note:'Includes a one-off trip — check if it repeats.'},
+    {name:'Recharge', spent:1193,  budget:800,   note:''},
+    {name:'Shopping', spent:670,   budget:500,   note:''},
+    {name:'Health',   spent:150,   budget:300,   note:''},
+    {name:'Salun',    spent:100,   budget:150,   note:''},
+  ]
+};
+
+let state;
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  state = saved ? JSON.parse(saved) : structuredClone(defaultState);
+} catch(e) { state = structuredClone(defaultState); }
+
+function save(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+function fmt(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+function render(){
+  document.getElementById('income').value = state.income;
+  document.getElementById('savingsGoal').value = state.savingsGoal;
+
+  const ledger = document.getElementById('ledger');
+  ledger.innerHTML = '';
+  let totalSpent = 0, totalBudget = 0;
+
+  state.categories.forEach((c, i) => {
+    totalSpent += c.spent;
+    totalBudget += c.budget;
+    const pct = c.budget > 0 ? Math.min(100, (c.spent / c.budget) * 100) : 100;
+    const over = c.spent > c.budget;
+    const color = over ? 'var(--red)' : (pct > 75 ? 'var(--gold)' : 'var(--green)');
+
+    const line = document.createElement('div');
+    line.className = 'ledger-line';
+    line.innerHTML = `
+      <div class="cat-name">${c.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color};"></div></div>
+      <div class="cat-nums">
+        <b class="${over ? 'warn' : ''}">${fmt(c.budget - c.spent)}</b> left<br>
+        ${fmt(c.spent)} of <input type="number" value="${c.budget}"
+          style="width:60px;padding:2px 4px;font-size:12px;display:inline-block;"
+          onchange="updateBudget(${i}, this.value)"> budget
+      </div>
+    `;
+    ledger.appendChild(line);
+  });
+
+  document.getElementById('totalSpent').textContent = fmt(totalSpent);
+
+  const balance = state.income - totalSpent - state.savingsGoal;
+  const balEl = document.getElementById('balanceNum');
+  balEl.textContent = fmt(balance);
+  balEl.style.color = balance < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('balanceNote').textContent =
+    balance < 0
+      ? `Savings target dharun ${fmt(Math.abs(balance))} jasta kharch zala ahe.`
+      : `Savings target nantar hey balance shillak ahe.`;
+
+  const sel = document.getElementById('newCat');
+  sel.innerHTML = state.categories.map(c => `<option>${c.name}</option>`).join('');
+
+  renderTips(totalSpent, totalBudget);
+}
+
+function renderTips(totalSpent, totalBudget){
+  const tipsEl = document.getElementById('tips');
+  const overCats = state.categories.filter(c => c.spent > c.budget)
+    .sort((a,b) => (b.spent-b.budget) - (a.spent-a.budget));
+
+  if (overCats.length === 0){
+    tipsEl.innerHTML = `<p class="footnote ok">Sagla budget chya aat ahe — changla chalu ahe.</p>`;
+    return;
+  }
+  tipsEl.innerHTML = overCats.slice(0,3).map(c => `
+    <p class="footnote"><b class="warn">${c.name}</b>: budget peksha ${fmt(c.spent - c.budget)} jasta.
+    ${c.note ? c.note : ''}</p>
+  `).join('');
+}
+
+function updateBudget(i, val){
+  state.categories[i].budget = Number(val) || 0;
+  save(); render();
+}
+
+function addExpense(){
+  const catName = document.getElementById('newCat').value;
+  const amt = Number(document.getElementById('newAmt').value);
+  if (!amt || amt <= 0) return;
+  const cat = state.categories.find(c => c.name === catName);
+  if (cat) cat.spent += amt;
+  document.getElementById('newAmt').value = '';
+  save(); render();
+}
+
+document.getElementById('income').addEventListener('change', e => {
+  state.income = Number(e.target.value) || 0; save(); render();
+});
+document.getElementById('savingsGoal').addEventListener('change', e => {
+  state.savingsGoal = Number(e.target.value) || 0; save(); render();
+});
+
+function resetAll(){
+  state = structuredClone(defaultState);
+  save(); render();
+}
+
+render();
+</script>
+</body>
+</html>

@@ -65,12 +65,13 @@
       min-height: 100vh;
       padding-bottom: 60px;
       transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 820px;
+      max-width: 840px;
       margin: 0 auto;
-      padding: 24px 16px;
+      padding: 20px 14px;
     }
 
     /* Header */
@@ -78,9 +79,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
+      gap: 12px;
     }
 
     .logo-group {
@@ -90,24 +92,26 @@
     }
 
     .logo-icon {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
       background: var(--primary-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      flex-shrink: 0;
     }
 
     h1 {
-      font-size: 24px;
+      font-size: clamp(18px, 5vw, 24px);
       font-weight: 800;
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      line-height: 1.2;
     }
 
     [data-theme="light"] h1 {
@@ -117,7 +121,7 @@
     }
 
     .subtitle {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-muted);
       font-weight: 500;
     }
@@ -126,15 +130,16 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .theme-toggle-btn:hover {
@@ -147,56 +152,52 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 20px;
+      padding: 20px 18px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow-sm);
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
     .card-title {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .card-title span.badge {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       background: var(--primary-gradient);
       color: white;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
     }
 
     .card-title span.badge-ai {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       background: var(--ai-gradient);
       color: white;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
     }
 
-    /* Grid Layouts */
+    /* Responsive Grid Systems */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    @media (max-width: 640px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .grid-4 { grid-template-columns: 1fr 1fr; }
+      gap: 10px;
     }
 
     /* Form Controls */
@@ -204,6 +205,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      width: 100%;
     }
 
     label {
@@ -216,13 +218,14 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 11px 14px;
+      padding: 10px 12px;
       color: var(--text-main);
       font-size: 14px;
       font-weight: 600;
       width: 100%;
       outline: none;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      min-height: 42px;
     }
 
     input:focus, select:focus {
@@ -235,7 +238,7 @@
       font-family: inherit;
       font-size: 14px;
       font-weight: 700;
-      padding: 11px 18px;
+      padding: 10px 16px;
       border-radius: var(--radius-sm);
       border: none;
       cursor: pointer;
@@ -245,6 +248,8 @@
       gap: 8px;
       transition: all 0.2s ease;
       text-decoration: none;
+      min-height: 42px;
+      white-space: nowrap;
     }
 
     .btn-primary {
@@ -283,6 +288,7 @@
     .btn-sm {
       padding: 6px 12px;
       font-size: 12px;
+      min-height: 34px;
     }
 
     .btn-danger {
@@ -300,25 +306,30 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 14px 16px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-dim);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     .stat-value {
-      font-size: 20px;
+      font-size: clamp(16px, 4vw, 20px);
       font-weight: 800;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.2;
     }
 
     .stat-sub {
       font-size: 11px;
-      margin-top: 2px;
+      margin-top: 3px;
       color: var(--text-muted);
     }
 
@@ -327,65 +338,71 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 14px;
-      transition: all 0.2s ease;
+      padding: 14px;
+      margin-bottom: 12px;
     }
 
     .category-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-      gap: 8px;
+      margin-bottom: 8px;
+      gap: 10px;
     }
 
     .category-title-group {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex: 1;
+      min-width: 0;
     }
 
     .category-icon {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 17px;
+      flex-shrink: 0;
     }
 
     .category-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .category-budget-input {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-muted);
+      flex-shrink: 0;
     }
 
     .category-budget-input input {
-      width: 90px;
+      width: 85px;
       padding: 4px 8px;
       font-size: 13px;
       text-align: right;
+      min-height: 34px;
     }
 
     /* Progress Bar */
     .progress-track {
-      height: 10px;
+      height: 8px;
       background: rgba(255, 255, 255, 0.06);
       border-radius: 6px;
       overflow: hidden;
-      margin: 10px 0;
+      margin: 8px 0;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
@@ -401,15 +418,16 @@
 
     /* Dynamic Alert Box inside Category */
     .category-alert {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 9px 12px;
+      padding: 8px 11px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
       line-height: 1.4;
+      word-break: break-word;
     }
 
     .alert-green {
@@ -438,16 +456,17 @@
     .expense-list {
       max-height: 280px;
       overflow-y: auto;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .expense-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 12px;
+      padding: 10px 8px;
       border-bottom: 1px solid var(--border-color);
       font-size: 13px;
+      gap: 8px;
     }
 
     .expense-item:last-child {
@@ -467,6 +486,7 @@
     .expense-amount {
       font-weight: 800;
       color: var(--accent-red);
+      white-space: nowrap;
     }
 
     /* AI Analysis Response Card */
@@ -474,8 +494,8 @@
       background: var(--bg-input);
       border: 1px solid rgba(236, 72, 153, 0.3);
       border-radius: var(--radius-md);
-      padding: 18px;
-      margin-top: 16px;
+      padding: 16px;
+      margin-top: 14px;
       display: none;
       animation: fadeIn 0.3s ease;
     }
@@ -485,11 +505,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Modal / Custom Category Section */
     .flex-between {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     /* Auto-Plan Banner */
@@ -497,17 +518,17 @@
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
       border: 1px solid rgba(99, 102, 241, 0.3);
       border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 14px;
+      margin-top: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .auto-plan-text h4 {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       margin-bottom: 2px;
     }
@@ -521,24 +542,27 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      width: auto;
     }
 
     /* Quick Add Presets */
     .quick-add-chips {
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
     }
 
     .chip {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 12px;
+      padding: 4px 10px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .chip:hover {
@@ -551,6 +575,104 @@
       padding: 24px;
       color: var(--text-dim);
       font-size: 13px;
+    }
+
+    /* ======================================================== */
+    /* MOBILE RESPONSIVE MEDIA QUERIES (< 640px and < 480px)   */
+    /* ======================================================== */
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 14px 10px;
+      }
+
+      .card {
+        padding: 16px 14px;
+        margin-bottom: 12px;
+        border-radius: var(--radius-md);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .grid-4 {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .auto-plan-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .quick-preset-btns {
+        width: 100%;
+        margin-top: 6px;
+      }
+
+      .quick-preset-btns button {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .btn-sm {
+        width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        align-items: flex-start;
+      }
+
+      .subtitle {
+        font-size: 11px;
+      }
+
+      .category-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .category-title-group {
+        width: 100%;
+      }
+
+      .category-budget-input {
+        width: 100%;
+        justify-content: space-between;
+        background: var(--bg-card);
+        padding: 6px 10px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+      }
+
+      .category-budget-input input {
+        width: 100px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .expense-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .expense-item > div:last-child {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
   </style>
 </head>
@@ -575,7 +697,7 @@
   <div class="card">
     <div class="card-title">
       <span>💰 Mahinyachi Income & Savings Target</span>
-      <span class="badge">Monthly Setup</span>
+      <span class="badge">Setup</span>
     </div>
 
     <div class="grid-2">
@@ -590,7 +712,7 @@
     </div>
 
     <!-- Quick Auto Budget Planner -->
-    <div class="auto-plan-box" style="margin-top: 18px; margin-bottom: 0;">
+    <div class="auto-plan-box">
       <div class="auto-plan-text">
         <h4>⚡ Smart Budget Planner (50/30/20 Rule)</h4>
         <p>Salary नुसार Needs (50%), Wants (30%), & Savings (20%) चे ऑटो-बजेट सेट करा.</p>
@@ -603,7 +725,7 @@
   </div>
 
   <!-- 2. Financial Overview Stats -->
-  <div class="grid-4" style="margin-bottom: 20px;">
+  <div class="grid-4" style="margin-bottom: 16px;">
     <div class="stat-card">
       <div class="stat-label">Total Salary</div>
       <div class="stat-value" id="statSalary">₹0</div>
@@ -654,7 +776,7 @@
           <input type="text" id="expNote" placeholder="eg. Petrol for bike, Grocery, EMI">
         </div>
         <div class="form-group" style="justify-content: flex-end;">
-          <button type="submit" class="btn btn-primary" style="height: 44px; margin-top: auto;">
+          <button type="submit" class="btn btn-primary" style="margin-top: auto;">
             <span>💾 Record Expense</span>
           </button>
         </div>
@@ -664,7 +786,7 @@
 
   <!-- 4. Category Wise Monitor -->
   <div class="card">
-    <div class="flex-between" style="margin-bottom: 16px;">
+    <div class="flex-between" style="margin-bottom: 14px;">
       <div class="card-title" style="margin-bottom: 0;">
         <span>📊 Category Wise Live Budget & Alert Monitor</span>
       </div>
@@ -676,26 +798,26 @@
     </div>
   </div>
 
-  <!-- 5. Groq AI Smart Financial Advisor (Powered by Groq Llama 3) -->
+  <!-- 5. Groq AI Smart Financial Advisor -->
   <div class="card" style="border-color: rgba(236, 72, 153, 0.4);">
     <div class="card-title">
-      <span style="display:flex; align-items:center; gap:8px;">
-        🤖 <b>Groq AI Smart Financial Advisor</b>
+      <span style="display:flex; align-items:center; gap:6px;">
+        🤖 <b>Groq AI Financial Advisor</b>
       </span>
       <span class="badge-ai">Powered by Groq API</span>
     </div>
 
-    <p style="font-size:13px; color:var(--text-muted); margin-bottom: 14px;">
-      तुमच्या या महिन्याच्या खर्चाचे आणि बजेटचे **Groq AI (Llama-3)** कडून स्मार्ट ॲनालिसिस व बचत टिप्स मिळवा!
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom: 12px;">
+      तुमच्या खर्चाचे आणि बजेटचे **Groq AI (Llama-3)** कडून रिअल-टाईम ॲनालिसिस व बचत टिप्स मिळवा!
     </p>
 
-    <div class="grid-2" style="margin-bottom:14px;">
+    <div class="grid-2" style="margin-bottom:12px;">
       <div class="form-group">
         <label for="groqApiKeyInput">Groq API Key</label>
         <input type="password" id="groqApiKeyInput" placeholder="gsk_..." onchange="saveGroqKey(this.value)">
       </div>
       <div class="form-group" style="justify-content: flex-end;">
-        <button id="aiBtn" class="btn btn-ai" style="height:44px; margin-top:auto;" onclick="fetchGroqAIAnalysis()">
+        <button id="aiBtn" class="btn btn-ai" onclick="fetchGroqAIAnalysis()">
           <span>✨ Generate AI Analysis & Strategy</span>
         </button>
       </div>
@@ -1033,8 +1155,8 @@ ${catSummary}
 
     if (aiResponseText) {
       aiBox.innerHTML = `
-        <div style="font-size:15px; font-weight:700; color:#ec4899; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
-          🤖 <span>Groq AI Smart Financial Strategy:</span>
+        <div style="font-size:14px; font-weight:700; color:#ec4899; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          🤖 <span>Groq AI Smart Strategy:</span>
         </div>
         <div style="font-size:13px; line-height:1.7; white-space: pre-wrap; color:var(--text-main);">${escapeHtml(aiResponseText)}</div>
       `;
@@ -1069,10 +1191,10 @@ function renderAll() {
   // Stats UI
   document.getElementById('statSalary').textContent = formatINR(appState.salary);
   document.getElementById('statAllocated').textContent = formatINR(totalAllocatedBudget);
-  document.getElementById('statAllocatedSub').textContent = `Savings Goal: ${formatINR(appState.savingsTarget)}`;
+  document.getElementById('statAllocatedSub').textContent = `Savings: ${formatINR(appState.savingsTarget)}`;
   
   document.getElementById('statSpent').textContent = formatINR(totalSpent);
-  document.getElementById('statSpentPct').textContent = `${spentPctOfBudget}% of total budget`;
+  document.getElementById('statSpentPct').textContent = `${spentPctOfBudget}% of budget`;
   
   const remEl = document.getElementById('statRemaining');
   remEl.textContent = formatINR(netRemaining);
@@ -1131,13 +1253,13 @@ function renderCategoryMonitor() {
       <div class="category-header">
         <div class="category-title-group">
           <div class="category-icon">${c.icon}</div>
-          <div>
+          <div style="min-width:0; flex:1;">
             <div class="category-name">${c.name}</div>
             <div style="font-size:12px; color:var(--text-muted);">Spent: <b>${formatINR(c.spent)}</b></div>
           </div>
         </div>
         <div class="category-budget-input">
-          <label>Budget (₹):</label>
+          <label>Budget:</label>
           <input type="number" value="${c.budget}" onchange="handleCategoryBudgetChange('${c.id}', this.value)">
           <button class="btn btn-outline btn-sm" style="padding:4px 8px;" onclick="deleteCategory('${c.id}')" title="Delete Category">🗑️</button>
         </div>
@@ -1173,7 +1295,7 @@ function renderExpenseLog() {
         <div class="expense-cat-badge">${t.catName} ${t.note ? `<span style="font-weight:400; color:var(--text-muted);">• ${t.note}</span>` : ''}</div>
         <div class="expense-date">${t.date}</div>
       </div>
-      <div style="display:flex; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:8px;">
         <span class="expense-amount">-${formatINR(t.amount)}</span>
         <button class="btn btn-outline btn-sm" style="padding:2px 6px; font-size:11px;" onclick="deleteTransaction('${t.id}')">✕</button>
       </div>

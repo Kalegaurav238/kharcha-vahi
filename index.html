@@ -720,16 +720,17 @@
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 const STORAGE_KEY = 'kharcha_vahi_state_v3';
-const DEFAULT_GROQ_KEY = '';
+const DEFAULT_GROQ_KEY = (typeof CONFIG !== 'undefined' && CONFIG.GROQ_API_KEY) ? CONFIG.GROQ_API_KEY : '';
 
 // Default initial state
 const initialState = {
   theme: 'dark',
   salary: 40000,
   savingsTarget: 8000,
-  groqApiKey: '',
+  groqApiKey: DEFAULT_GROQ_KEY,
   categories: [
     { id: 'cat_petrol',   name: 'Petrol',    icon: '⛽', budget: 2000, spent: 1000 },
     { id: 'cat_food',     name: 'Food & Meal',icon: '🍔', budget: 6000, spent: 3200 },

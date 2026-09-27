@@ -1,0 +1,5 @@
+# Secret and environment configuration files
+config.js
+.env
+*.env
+env.js

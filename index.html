@@ -469,18 +469,67 @@
     [data-theme="light"] .alert-amber { color: #b45309; }
     [data-theme="light"] .alert-red { color: #b91c1c; }
 
+    /* Time Filter Bar */
+    .time-filter-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .time-filter-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .time-filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--text-main);
+    }
+
+    .time-filter-btn.active {
+      background: var(--primary-gradient);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 2px 10px rgba(79, 70, 229, 0.35);
+    }
+
+    .history-summary-bar {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
     /* Expenses Log Table */
     .expense-list {
-      max-height: 280px;
+      max-height: 320px;
       overflow-y: auto;
-      margin-top: 10px;
+      margin-top: 6px;
     }
 
     .expense-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 8px;
+      padding: 12px 10px;
       border-bottom: 1px solid var(--border-color);
       font-size: 13px;
       gap: 8px;
@@ -498,6 +547,7 @@
     .expense-date {
       color: var(--text-dim);
       font-size: 11px;
+      margin-top: 2px;
     }
 
     .expense-amount {
@@ -505,6 +555,7 @@
       font-weight: 800;
       color: var(--accent-red);
       white-space: nowrap;
+      font-size: 15px;
     }
 
     /* AI Analysis Response Card */
@@ -653,7 +704,7 @@
       <div class="logo-icon">💼</div>
       <div>
         <h1>Kharcha Vahi (खर्चा वही)</h1>
-        <div class="subtitle">Professional Budget, AI Insights & Expense Monitor</div>
+        <div class="subtitle">Professional Budget, AI Insights & Expense History</div>
       </div>
     </div>
     <div class="header-actions">
@@ -797,17 +848,30 @@
     <div id="aiAnalysisResult" class="ai-result-box"></div>
   </div>
 
-  <!-- 6. Transaction Log & Data Backup (Database Concept) -->
+  <!-- 6. Usage & Transaction History (With Day / Week / Month Time Filters) -->
   <div class="card">
     <div class="flex-between" style="margin-bottom: 12px;">
       <div class="card-title" style="margin-bottom: 0;">
-        <span>📜 Transaction Log (Hishob History)</span>
+        <span>📜 Transaction Log & Usage History</span>
       </div>
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button class="btn btn-outline btn-sm" onclick="exportDataBackup()">📥 Export Backup</button>
-        <button class="btn btn-outline btn-sm" onclick="importDataBackup()">📤 Import Backup</button>
+        <button class="btn btn-outline btn-sm" onclick="exportDataBackup()">📥 Export</button>
+        <button class="btn btn-outline btn-sm" onclick="importDataBackup()">📤 Import</button>
         <button class="btn btn-danger btn-sm" onclick="confirmResetAll()">Reset All</button>
       </div>
+    </div>
+
+    <!-- Time Filter Tabs (Day, Week, Month, All) -->
+    <div class="time-filter-bar">
+      <button class="time-filter-btn active" id="filterAllBtn" onclick="setHistoryFilter('all')">All Time</button>
+      <button class="time-filter-btn" id="filterDayBtn" onclick="setHistoryFilter('day')">📅 Today (Day)</button>
+      <button class="time-filter-btn" id="filterWeekBtn" onclick="setHistoryFilter('week')">🗓️ This Week</button>
+      <button class="time-filter-btn" id="filterMonthBtn" onclick="setHistoryFilter('month')">📆 This Month</button>
+    </div>
+
+    <!-- Filter Summary Bar -->
+    <div id="historyFilterSummary" class="history-summary-bar">
+      Showing all transactions • Total Spent: <b>₹0</b>
     </div>
 
     <div class="expense-list" id="expenseLogContainer">
@@ -846,12 +910,13 @@ const initialState = {
     { id: 'cat_other',    name: 'Other Expenses',    icon: '📦', budget: 3000, spent: 500 }
   ],
   transactions: [
-    { id: 'tx_1', catId: 'cat_petrol', catName: 'Petrol', amount: 1000, note: 'Full tank petrol', date: new Date().toLocaleDateString('en-IN') },
-    { id: 'tx_2', catId: 'cat_food', catName: 'Food & Meal', amount: 1200, note: 'Grocery shopping', date: new Date().toLocaleDateString('en-IN') }
+    { id: 'tx_1', catId: 'cat_petrol', catName: 'Petrol', amount: 1000, note: 'Full tank petrol', timestamp: Date.now(), date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) },
+    { id: 'tx_2', catId: 'cat_food', catName: 'Food & Meal', amount: 1200, note: 'Grocery shopping', timestamp: Date.now(), date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) }
   ]
 };
 
 let appState = loadState();
+let currentHistoryFilter = 'all';
 
 function loadState() {
   try {
@@ -904,7 +969,20 @@ function updateThemeUI() {
   document.getElementById('themeText').textContent = isDark ? 'Dark' : 'Light';
 }
 
-// Export / Import Data Backup (Database Concept)
+// Time Filtering Functionality
+function setHistoryFilter(filterType) {
+  currentHistoryFilter = filterType;
+  
+  document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
+  if (filterType === 'all') document.getElementById('filterAllBtn').classList.add('active');
+  if (filterType === 'day') document.getElementById('filterDayBtn').classList.add('active');
+  if (filterType === 'week') document.getElementById('filterWeekBtn').classList.add('active');
+  if (filterType === 'month') document.getElementById('filterMonthBtn').classList.add('active');
+
+  renderExpenseLog();
+}
+
+// Export / Import Data Backup
 function exportDataBackup() {
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
   const downloadAnchor = document.createElement('a');
@@ -1018,15 +1096,18 @@ function handleAddExpense(e) {
 
   cat.spent += amt;
 
+  const nowMs = Date.now();
   const newTx = {
-    id: 'tx_' + Date.now(),
+    id: 'tx_' + nowMs,
     catId: cat.id,
     catName: cat.name,
     amount: amt,
     note: note || 'Expense',
+    timestamp: nowMs,
     date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
   };
 
+  if (!appState.transactions) appState.transactions = [];
   appState.transactions.unshift(newTx);
   
   document.getElementById('expAmount').value = '';
@@ -1307,20 +1388,61 @@ function renderCategoryMonitor() {
 
 function renderExpenseLog() {
   const container = document.getElementById('expenseLogContainer');
+  const summaryBox = document.getElementById('historyFilterSummary');
+  if (!container || !summaryBox) return;
+
   container.innerHTML = '';
 
-  if (appState.transactions.length === 0) {
+  if (!appState.transactions || appState.transactions.length === 0) {
+    summaryBox.innerHTML = 'अजून कोणताही खर्च नोंदवलेला नाही.';
     container.innerHTML = `<div class="empty-state">अजून कोणताही खर्च नोंदवला नाही.</div>`;
     return;
   }
 
-  appState.transactions.forEach(t => {
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6).getTime();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+
+  const filteredTx = appState.transactions.filter(t => {
+    let txTime = t.timestamp;
+    if (!txTime) {
+      if (t.id && t.id.startsWith('tx_')) {
+        const idNum = Number(t.id.replace('tx_', ''));
+        txTime = isNaN(idNum) ? Date.now() : idNum;
+      } else {
+        txTime = Date.now();
+      }
+    }
+
+    if (currentHistoryFilter === 'day') return txTime >= startOfToday;
+    if (currentHistoryFilter === 'week') return txTime >= startOfWeek;
+    if (currentHistoryFilter === 'month') return txTime >= startOfMonth;
+    return true; // 'all'
+  });
+
+  let filterTotalSpent = 0;
+  filteredTx.forEach(t => filterTotalSpent += t.amount);
+
+  let filterLabelText = 'All Time';
+  if (currentHistoryFilter === 'day') filterLabelText = 'Today (आजचा खर्च)';
+  if (currentHistoryFilter === 'week') filterLabelText = 'This Week (या आठवड्याचा खर्च)';
+  if (currentHistoryFilter === 'month') filterLabelText = 'This Month (या महिन्याचा खर्च)';
+
+  summaryBox.innerHTML = `Showing <b>${filteredTx.length}</b> transactions for <b>${filterLabelText}</b> • Total Spent: <b style="color:var(--accent-red);">${formatINR(filterTotalSpent)}</b>`;
+
+  if (filteredTx.length === 0) {
+    container.innerHTML = `<div class="empty-state">${filterLabelText} साठी कोणताही खर्च सापडला नाही.</div>`;
+    return;
+  }
+
+  filteredTx.forEach(t => {
     const item = document.createElement('div');
     item.className = 'expense-item';
     item.innerHTML = `
       <div>
         <div class="expense-cat-badge">${t.catName} ${t.note ? `<span style="font-weight:400; color:var(--text-muted);">• ${t.note}</span>` : ''}</div>
-        <div class="expense-date">${t.date}</div>
+        <div class="expense-date">${t.date || ''}</div>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="expense-amount">-${formatINR(t.amount)}</span>

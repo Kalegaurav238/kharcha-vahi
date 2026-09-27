@@ -3,52 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Kharcha Vahi (खर्चा वही) - Smart Budget & Expense Monitor</title>
+  <title>Kharcha Vahi (खर्चा वही) - Professional Budget & AI Financial Monitor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-main: #0b0f19;
-      --bg-card: #151c2c;
-      --bg-card-hover: #1e273e;
-      --bg-input: #0f1523;
-      --border-color: #26334d;
+      /* Professional Fintech Dark Palette */
+      --bg-main: #070b14;
+      --bg-card: #101726;
+      --bg-card-hover: #172136;
+      --bg-input: #0a0f1d;
+      --border-color: rgba(255, 255, 255, 0.08);
       --border-focus: #6366f1;
       
-      --text-main: #f1f5f9;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
       
       --primary: #6366f1;
-      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      --ai-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
-      --accent-gold: #f59e0b;
+      --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --ai-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      --emerald-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      
       --accent-green: #10b981;
-      --accent-green-bg: rgba(16, 185, 129, 0.12);
+      --accent-green-bg: rgba(16, 185, 129, 0.1);
       --accent-amber: #f59e0b;
-      --accent-amber-bg: rgba(245, 158, 11, 0.12);
-      --accent-red: #ef4444;
-      --accent-red-bg: rgba(239, 68, 68, 0.12);
+      --accent-amber-bg: rgba(245, 158, 11, 0.1);
+      --accent-red: #f43f5e;
+      --accent-red-bg: rgba(244, 63, 94, 0.1);
       
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
-      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.35);
+      --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.45);
     }
 
     [data-theme="light"] {
-      --bg-main: #f4f6fb;
+      /* Ultra-Crisp Professional Light Palette */
+      --bg-main: #f4f6fc;
       --bg-card: #ffffff;
       --bg-card-hover: #f8fafc;
-      --bg-input: #edf2f7;
+      --bg-input: #eef2f6;
       --border-color: #e2e8f0;
       --text-main: #0f172a;
       --text-muted: #475569;
       --text-dim: #64748b;
-      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 36px rgba(15, 23, 42, 0.08);
+      --accent-green-bg: rgba(16, 185, 129, 0.08);
+      --accent-amber-bg: rgba(245, 158, 11, 0.08);
+      --accent-red-bg: rgba(244, 63, 94, 0.08);
     }
 
     * {
@@ -69,9 +75,9 @@
     }
 
     .container {
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 20px 14px;
+      padding: 24px 16px;
     }
 
     /* Header */
@@ -79,8 +85,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
       border-bottom: 1px solid var(--border-color);
       gap: 12px;
     }
@@ -92,20 +98,21 @@
     }
 
     .logo-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
       background: var(--primary-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      font-size: 22px;
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
       flex-shrink: 0;
     }
 
     h1 {
-      font-size: clamp(18px, 5vw, 24px);
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(20px, 5vw, 26px);
       font-weight: 800;
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
@@ -126,11 +133,17 @@
       font-weight: 500;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .theme-toggle-btn {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 8px 12px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
       cursor: pointer;
       font-size: 13px;
@@ -152,16 +165,17 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 20px 18px;
-      margin-bottom: 16px;
+      padding: 22px 20px;
+      margin-bottom: 18px;
       box-shadow: var(--shadow-sm);
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
     .card-title {
-      font-size: 16px;
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px;
       font-weight: 700;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -174,7 +188,7 @@
       font-weight: 600;
       background: var(--primary-gradient);
       color: white;
-      padding: 3px 9px;
+      padding: 3px 10px;
       border-radius: 20px;
     }
 
@@ -183,7 +197,7 @@
       font-weight: 600;
       background: var(--ai-gradient);
       color: white;
-      padding: 3px 9px;
+      padding: 3px 10px;
       border-radius: 20px;
     }
 
@@ -209,8 +223,10 @@
     }
 
     label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       color: var(--text-muted);
     }
 
@@ -218,27 +234,27 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 10px 12px;
+      padding: 11px 14px;
       color: var(--text-main);
       font-size: 14px;
       font-weight: 600;
       width: 100%;
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      min-height: 42px;
+      min-height: 44px;
     }
 
     input:focus, select:focus {
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
     }
 
     /* Buttons */
     .btn {
-      font-family: inherit;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
       font-weight: 700;
-      padding: 10px 16px;
+      padding: 11px 18px;
       border-radius: var(--radius-sm);
       border: none;
       cursor: pointer;
@@ -248,29 +264,29 @@
       gap: 8px;
       transition: all 0.2s ease;
       text-decoration: none;
-      min-height: 42px;
+      min-height: 44px;
       white-space: nowrap;
     }
 
     .btn-primary {
       background: var(--primary-gradient);
       color: white;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
     }
 
     .btn-primary:hover {
-      opacity: 0.92;
+      opacity: 0.94;
       transform: translateY(-1px);
     }
 
     .btn-ai {
       background: var(--ai-gradient);
       color: white;
-      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35);
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.35);
     }
 
     .btn-ai:hover {
-      opacity: 0.92;
+      opacity: 0.94;
       transform: translateY(-1px);
     }
 
@@ -292,13 +308,13 @@
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.15);
+      background: rgba(244, 63, 94, 0.12);
       color: var(--accent-red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(244, 63, 94, 0.3);
     }
 
     .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.3);
+      background: rgba(244, 63, 94, 0.25);
     }
 
     /* Summary Stats Cards */
@@ -306,7 +322,7 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px 14px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -314,15 +330,16 @@
 
     .stat-label {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-dim);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
 
     .stat-value {
-      font-size: clamp(16px, 4vw, 20px);
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(17px, 4vw, 22px);
       font-weight: 800;
       line-height: 1.2;
     }
@@ -338,7 +355,7 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 14px 16px;
       margin-bottom: 12px;
     }
 
@@ -346,7 +363,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       gap: 10px;
     }
 
@@ -359,15 +376,15 @@
     }
 
     .category-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
@@ -389,7 +406,7 @@
     }
 
     .category-budget-input input {
-      width: 85px;
+      width: 90px;
       padding: 4px 8px;
       font-size: 13px;
       text-align: right;
@@ -420,7 +437,7 @@
     .category-alert {
       font-size: 12px;
       font-weight: 600;
-      padding: 8px 11px;
+      padding: 8px 12px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -445,7 +462,7 @@
     .alert-red {
       background: var(--accent-red-bg);
       color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(244, 63, 94, 0.3);
     }
 
     [data-theme="light"] .alert-green { color: #047857; }
@@ -484,6 +501,7 @@
     }
 
     .expense-amount {
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       color: var(--accent-red);
       white-space: nowrap;
@@ -492,7 +510,7 @@
     /* AI Analysis Response Card */
     .ai-result-box {
       background: var(--bg-input);
-      border: 1px solid rgba(236, 72, 153, 0.3);
+      border: 1px solid rgba(6, 182, 212, 0.3);
       border-radius: var(--radius-md);
       padding: 16px;
       margin-top: 14px;
@@ -515,10 +533,10 @@
 
     /* Auto-Plan Banner */
     .auto-plan-box {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%);
+      border: 1px solid rgba(79, 70, 229, 0.3);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 14px 16px;
       margin-top: 16px;
       display: flex;
       align-items: center;
@@ -577,75 +595,39 @@
       font-size: 13px;
     }
 
-    /* ======================================================== */
-    /* MOBILE RESPONSIVE MEDIA QUERIES (< 640px and < 480px)   */
-    /* ======================================================== */
+    /* Database info card */
+    .db-info-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
 
+    /* MOBILE RESPONSIVE MEDIA QUERIES */
     @media (max-width: 640px) {
-      .container {
-        padding: 14px 10px;
-      }
-
-      .card {
-        padding: 16px 14px;
-        margin-bottom: 12px;
-        border-radius: var(--radius-md);
-      }
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .grid-4 {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
-
-      .auto-plan-box {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .quick-preset-btns {
-        width: 100%;
-        margin-top: 6px;
-      }
-
-      .quick-preset-btns button {
-        flex: 1;
-        justify-content: center;
-      }
-
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .btn-sm {
-        width: auto;
-      }
+      .container { padding: 14px 10px; }
+      .card { padding: 16px 14px; margin-bottom: 12px; border-radius: var(--radius-md); }
+      .grid-2 { grid-template-columns: 1fr; gap: 12px; }
+      .grid-4 { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .auto-plan-box { flex-direction: column; align-items: flex-start; }
+      .quick-preset-btns { width: 100%; margin-top: 6px; }
+      .quick-preset-btns button { flex: 1; justify-content: center; }
+      .btn { width: 100%; justify-content: center; }
+      .btn-sm { width: auto; }
     }
 
     @media (max-width: 480px) {
-      header {
-        align-items: flex-start;
-      }
-
-      .subtitle {
-        font-size: 11px;
-      }
-
-      .category-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .category-title-group {
-        width: 100%;
-      }
-
+      header { align-items: flex-start; }
+      .subtitle { font-size: 11px; }
+      .category-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .category-title-group { width: 100%; }
       .category-budget-input {
         width: 100%;
         justify-content: space-between;
@@ -654,25 +636,11 @@
         border-radius: var(--radius-sm);
         border: 1px solid var(--border-color);
       }
-
-      .category-budget-input input {
-        width: 100px;
-      }
-
-      .stat-card {
-        padding: 10px;
-      }
-
-      .expense-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
-
-      .expense-item > div:last-child {
-        width: 100%;
-        justify-content: space-between;
-      }
+      .category-budget-input input { width: 100px; }
+      .stat-card { padding: 10px; }
+      .expense-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .expense-item > div:last-child { width: 100%; justify-content: space-between; }
+      .db-info-box { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
   </style>
 </head>
@@ -682,22 +650,24 @@
   <!-- Header -->
   <header>
     <div class="logo-group">
-      <div class="logo-icon">📖</div>
+      <div class="logo-icon">💼</div>
       <div>
         <h1>Kharcha Vahi (खर्चा वही)</h1>
-        <div class="subtitle">Smart Monthly Budget, Groq AI Planning & Monitor</div>
+        <div class="subtitle">Professional Budget, AI Insights & Expense Monitor</div>
       </div>
     </div>
-    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
-      <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
-    </button>
+    <div class="header-actions">
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
+      </button>
+    </div>
   </header>
 
   <!-- 1. Salary & Savings Setup Card -->
   <div class="card">
     <div class="card-title">
-      <span>💰 Mahinyachi Income & Savings Target</span>
-      <span class="badge">Setup</span>
+      <span>💰 Monthly Salary & Target Savings</span>
+      <span class="badge">Monthly Setup</span>
     </div>
 
     <div class="grid-2">
@@ -718,7 +688,7 @@
         <p>Salary नुसार Needs (50%), Wants (30%), & Savings (20%) चे ऑटो-बजेट सेट करा.</p>
       </div>
       <div class="quick-preset-btns">
-        <button class="btn btn-outline btn-sm" onclick="applySmartBudgetPlan(50, 30, 20)">50/30/20 Plan Apply</button>
+        <button class="btn btn-outline btn-sm" onclick="applySmartBudgetPlan(50, 30, 20)">50/30/20 Plan</button>
         <button class="btn btn-outline btn-sm" onclick="applySmartBudgetPlan(60, 25, 15)">60/25/15 Plan</button>
       </div>
     </div>
@@ -751,7 +721,7 @@
   <!-- 3. Add Expense Component -->
   <div class="card">
     <div class="card-title">
-      <span>➕ Navin Kharch Nond Kara (Add Expense)</span>
+      <span>➕ Record New Expense</span>
     </div>
     <form id="expenseForm" onsubmit="handleAddExpense(event)">
       <div class="grid-2">
@@ -788,7 +758,7 @@
   <div class="card">
     <div class="flex-between" style="margin-bottom: 14px;">
       <div class="card-title" style="margin-bottom: 0;">
-        <span>📊 Category Wise Live Budget & Alert Monitor</span>
+        <span>📊 Category Live Budget Monitor</span>
       </div>
       <button class="btn btn-outline btn-sm" onclick="openAddCategoryPrompt()">+ New Category</button>
     </div>
@@ -799,7 +769,7 @@
   </div>
 
   <!-- 5. Groq AI Smart Financial Advisor -->
-  <div class="card" style="border-color: rgba(236, 72, 153, 0.4);">
+  <div class="card" style="border-color: rgba(6, 182, 212, 0.4);">
     <div class="card-title">
       <span style="display:flex; align-items:center; gap:6px;">
         🤖 <b>Groq AI Financial Advisor</b>
@@ -827,17 +797,29 @@
     <div id="aiAnalysisResult" class="ai-result-box"></div>
   </div>
 
-  <!-- 6. Recent Expenses Log & Reset -->
+  <!-- 6. Transaction Log & Data Backup (Database Concept) -->
   <div class="card">
     <div class="flex-between" style="margin-bottom: 12px;">
       <div class="card-title" style="margin-bottom: 0;">
         <span>📜 Transaction Log (Hishob History)</span>
       </div>
-      <button class="btn btn-danger btn-sm" onclick="confirmResetAll()">Reset All Data</button>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="exportDataBackup()">📥 Export Backup</button>
+        <button class="btn btn-outline btn-sm" onclick="importDataBackup()">📤 Import Backup</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmResetAll()">Reset All</button>
+      </div>
     </div>
 
     <div class="expense-list" id="expenseLogContainer">
       <!-- Dynamic transactions rendered here -->
+    </div>
+
+    <!-- Data Persistence / Database Info Box -->
+    <div class="db-info-box">
+      <div>
+        <b>💾 Local Database Active:</b> डेटा तुमच्या ब्राऊझर (LocalStorage) मध्ये सुरक्षित सेव्ह होतो.
+      </div>
+      <div style="font-weight:600; color:var(--primary);">Status: 100% Offline Compatible</div>
     </div>
   </div>
 </div>
@@ -920,6 +902,43 @@ function updateThemeUI() {
   const isDark = appState.theme === 'dark';
   document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
   document.getElementById('themeText').textContent = isDark ? 'Dark' : 'Light';
+}
+
+// Export / Import Data Backup (Database Concept)
+function exportDataBackup() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `kharcha_vahi_backup_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+}
+
+function importDataBackup() {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.json';
+  fileInput.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+      try {
+        const imported = JSON.parse(event.target.result);
+        if (imported && imported.categories) {
+          appState = imported;
+          saveState();
+          renderAll();
+          alert('डेटा सेव्ह केला गेला आहे! (Backup Imported Successfully)');
+        }
+      } catch (err) {
+        alert('अवैध फाईल! कृपया योग्य Backup JSON फाईल निवडा.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  fileInput.click();
 }
 
 // Salary & Setup Inputs
@@ -1155,7 +1174,7 @@ ${catSummary}
 
     if (aiResponseText) {
       aiBox.innerHTML = `
-        <div style="font-size:14px; font-weight:700; color:#ec4899; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <div style="font-size:14px; font-weight:700; color:#06b6d4; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
           🤖 <span>Groq AI Smart Strategy:</span>
         </div>
         <div style="font-size:13px; line-height:1.7; white-space: pre-wrap; color:var(--text-main);">${escapeHtml(aiResponseText)}</div>

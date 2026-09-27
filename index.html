@@ -208,6 +208,12 @@
       gap: 14px;
     }
 
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -469,6 +475,23 @@
     [data-theme="light"] .alert-amber { color: #b45309; }
     [data-theme="light"] .alert-red { color: #b91c1c; }
 
+    /* Cycle Info Banner */
+    .cycle-banner {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
     /* Time Filter Bar */
     .time-filter-bar {
       display: flex;
@@ -666,6 +689,7 @@
       .container { padding: 14px 10px; }
       .card { padding: 16px 14px; margin-bottom: 12px; border-radius: var(--radius-md); }
       .grid-2 { grid-template-columns: 1fr; gap: 12px; }
+      .grid-3 { grid-template-columns: 1fr; gap: 12px; }
       .grid-4 { grid-template-columns: 1fr 1fr; gap: 8px; }
       .auto-plan-box { flex-direction: column; align-items: flex-start; }
       .quick-preset-btns { width: 100%; margin-top: 6px; }
@@ -704,7 +728,7 @@
       <div class="logo-icon">💼</div>
       <div>
         <h1>Kharcha Vahi (खर्चा वही)</h1>
-        <div class="subtitle">Professional Budget, AI Insights & Expense History</div>
+        <div class="subtitle">Professional Budget, AI Insights & Salary Reset Cycles</div>
       </div>
     </div>
     <div class="header-actions">
@@ -714,22 +738,38 @@
     </div>
   </header>
 
-  <!-- 1. Salary & Savings Setup Card -->
+  <!-- 1. Salary, Savings & Reset Cycle Date Setup Card -->
   <div class="card">
     <div class="card-title">
-      <span>💰 Monthly Salary & Target Savings</span>
+      <span>💰 Salary, Savings & Monthly Reset Cycle</span>
       <span class="badge">Monthly Setup</span>
     </div>
 
-    <div class="grid-2">
+    <div class="grid-3">
       <div class="form-group">
-        <label for="incomeInput">Mahinyachi Salary / Income (₹)</label>
+        <label for="incomeInput">Mahinyachi Salary (₹)</label>
         <input type="number" id="incomeInput" placeholder="eg. 50000" onchange="updateSalarySettings()">
       </div>
       <div class="form-group">
         <label for="savingsInput">Target Savings (₹)</label>
         <input type="number" id="savingsInput" placeholder="eg. 10000" onchange="updateSalarySettings()">
       </div>
+      <div class="form-group">
+        <label for="cycleDayInput">Reset Cycle Date (१ ते ३१)</label>
+        <select id="cycleDayInput" onchange="updateSalarySettings()">
+          <option value="1">1st of Month (१ तारीख)</option>
+          <option value="5">5th of Month (५ तारीख - Salary)</option>
+          <option value="10">10th of Month (१० तारीख)</option>
+          <option value="15">15th of Month (१५ तारीख)</option>
+          <option value="25">25th of Month (२५ तारीख)</option>
+          <option value="30">30th of Month (३० तारीख)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Active Cycle Banner -->
+    <div class="cycle-banner" id="activeCycleBanner">
+      📅 Active Budget Cycle: <b>1st Sep to 30th Sep</b>
     </div>
 
     <!-- Quick Auto Budget Planner -->
@@ -758,7 +798,7 @@
       <div class="stat-sub" id="statAllocatedSub">Categories Budget</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Total Spent</div>
+      <div class="stat-label">Active Cycle Spent</div>
       <div class="stat-value" id="statSpent" style="color: var(--accent-red);">₹0</div>
       <div class="stat-sub" id="statSpentPct">0% of budget</div>
     </div>
@@ -809,7 +849,7 @@
   <div class="card">
     <div class="flex-between" style="margin-bottom: 14px;">
       <div class="card-title" style="margin-bottom: 0;">
-        <span>📊 Category Live Budget Monitor</span>
+        <span>📊 Active Cycle Budget Monitor</span>
       </div>
       <button class="btn btn-outline btn-sm" onclick="openAddCategoryPrompt()">+ New Category</button>
     </div>
@@ -852,7 +892,7 @@
   <div class="card">
     <div class="flex-between" style="margin-bottom: 12px;">
       <div class="card-title" style="margin-bottom: 0;">
-        <span>📜 Transaction Log & Usage History</span>
+        <span>📜 Transaction Log & Full History</span>
       </div>
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
         <button class="btn btn-outline btn-sm" onclick="exportDataBackup()">📥 Export</button>
@@ -863,10 +903,10 @@
 
     <!-- Time Filter Tabs (Day, Week, Month, All) -->
     <div class="time-filter-bar">
-      <button class="time-filter-btn active" id="filterAllBtn" onclick="setHistoryFilter('all')">All Time</button>
+      <button class="time-filter-btn active" id="filterAllBtn" onclick="setHistoryFilter('all')">All Time History</button>
       <button class="time-filter-btn" id="filterDayBtn" onclick="setHistoryFilter('day')">📅 Today (Day)</button>
       <button class="time-filter-btn" id="filterWeekBtn" onclick="setHistoryFilter('week')">🗓️ This Week</button>
-      <button class="time-filter-btn" id="filterMonthBtn" onclick="setHistoryFilter('month')">📆 This Month</button>
+      <button class="time-filter-btn" id="filterMonthBtn" onclick="setHistoryFilter('month')">📆 Active Cycle</button>
     </div>
 
     <!-- Filter Summary Bar -->
@@ -881,7 +921,7 @@
     <!-- Data Persistence / Database Info Box -->
     <div class="db-info-box">
       <div>
-        <b>💾 Local Database Active:</b> डेटा तुमच्या ब्राऊझर (LocalStorage) मध्ये सुरक्षित सेव्ह होतो.
+        <b>💾 Local Database Active:</b> सर्व मागील सायकलचा इतिहास सुरक्षित जतन राहतो.
       </div>
       <div style="font-weight:600; color:var(--primary);">Status: 100% Offline Compatible</div>
     </div>
@@ -890,7 +930,7 @@
 
 <script src="config.js"></script>
 <script>
-const STORAGE_KEY = 'kharcha_vahi_state_v3';
+const STORAGE_KEY = 'kharcha_vahi_state_v4';
 const DEFAULT_GROQ_KEY = (typeof CONFIG !== 'undefined' && CONFIG.GROQ_API_KEY) ? CONFIG.GROQ_API_KEY : '';
 
 // Default initial state
@@ -898,16 +938,17 @@ const initialState = {
   theme: 'dark',
   salary: 40000,
   savingsTarget: 8000,
+  cycleStartDay: 1, // Default reset date: 1st of month
   groqApiKey: DEFAULT_GROQ_KEY,
   categories: [
-    { id: 'cat_petrol',   name: 'Petrol',    icon: '⛽', budget: 2000, spent: 1000 },
-    { id: 'cat_food',     name: 'Food & Meal',icon: '🍔', budget: 6000, spent: 3200 },
-    { id: 'cat_rent',     name: 'Room Rent', icon: '🏠', budget: 7500, spent: 7500 },
-    { id: 'cat_emi',      name: 'EMI / Loan', icon: '💳', budget: 5000, spent: 5000 },
-    { id: 'cat_recharge', name: 'Bills & Recharge', icon: '⚡', budget: 1500, spent: 650 },
-    { id: 'cat_shopping', name: 'Shopping',  icon: '🛍️', budget: 3000, spent: 1200 },
-    { id: 'cat_personal', name: 'Personal Expenses', icon: '☕', budget: 4000, spent: 1800 },
-    { id: 'cat_other',    name: 'Other Expenses',    icon: '📦', budget: 3000, spent: 500 }
+    { id: 'cat_petrol',   name: 'Petrol',    icon: '⛽', budget: 2000, spent: 0 },
+    { id: 'cat_food',     name: 'Food & Meal',icon: '🍔', budget: 6000, spent: 0 },
+    { id: 'cat_rent',     name: 'Room Rent', icon: '🏠', budget: 7500, spent: 0 },
+    { id: 'cat_emi',      name: 'EMI / Loan', icon: '💳', budget: 5000, spent: 0 },
+    { id: 'cat_recharge', name: 'Bills & Recharge', icon: '⚡', budget: 1500, spent: 0 },
+    { id: 'cat_shopping', name: 'Shopping',  icon: '🛍️', budget: 3000, spent: 0 },
+    { id: 'cat_personal', name: 'Personal Expenses', icon: '☕', budget: 4000, spent: 0 },
+    { id: 'cat_other',    name: 'Other Expenses',    icon: '📦', budget: 3000, spent: 0 }
   ],
   transactions: [
     { id: 'tx_1', catId: 'cat_petrol', catName: 'Petrol', amount: 1000, note: 'Full tank petrol', timestamp: Date.now(), date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) },
@@ -923,6 +964,7 @@ function loadState() {
     const data = localStorage.getItem(STORAGE_KEY);
     const parsed = data ? JSON.parse(data) : structuredClone(initialState);
     if (!parsed.groqApiKey) parsed.groqApiKey = DEFAULT_GROQ_KEY;
+    if (!parsed.cycleStartDay) parsed.cycleStartDay = 1;
     return parsed;
   } catch (e) {
     return structuredClone(initialState);
@@ -948,6 +990,78 @@ function formatINR(val) {
 
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Active Cycle Bounds Calculation Logic
+function getActiveCycleBounds(cycleStartDay) {
+  const day = Number(cycleStartDay) || 1;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const currentDate = now.getDate();
+
+  let startYear = currentYear;
+  let startMonth = currentMonth;
+
+  if (currentDate < day) {
+    startMonth = currentMonth - 1;
+    if (startMonth < 0) {
+      startMonth = 11;
+      startYear = currentYear - 1;
+    }
+  }
+
+  const startDate = new Date(startYear, startMonth, day, 0, 0, 0, 0);
+
+  let endMonth = startMonth + 1;
+  let endYear = startYear;
+  if (endMonth > 11) {
+    endMonth = 0;
+    endYear = startYear + 1;
+  }
+  const endDate = new Date(endYear, endMonth, day, 0, 0, 0, 0);
+  endDate.setMilliseconds(-1);
+
+  return {
+    startMs: startDate.getTime(),
+    endMs: endDate.getTime(),
+    startLabel: startDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+    endLabel: endDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+    nextStartLabel: new Date(endYear, endMonth, day).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+  };
+}
+
+// Recalculate Category Active Spent for Current Cycle
+function recalculateActiveCategorySpent() {
+  const cycleBounds = getActiveCycleBounds(appState.cycleStartDay || 1);
+
+  const categorySpentMap = {};
+  appState.categories.forEach(c => categorySpentMap[c.id] = 0);
+
+  if (appState.transactions && Array.isArray(appState.transactions)) {
+    appState.transactions.forEach(t => {
+      let txTime = t.timestamp;
+      if (!txTime) {
+        if (t.id && t.id.startsWith('tx_')) {
+          const idNum = Number(t.id.replace('tx_', ''));
+          txTime = isNaN(idNum) ? Date.now() : idNum;
+        } else {
+          txTime = Date.now();
+        }
+      }
+
+      // Check if transaction falls inside active cycle bounds!
+      if (txTime >= cycleBounds.startMs && txTime <= cycleBounds.endMs) {
+        if (categorySpentMap[t.catId] !== undefined) {
+          categorySpentMap[t.catId] += Number(t.amount) || 0;
+        }
+      }
+    });
+  }
+
+  appState.categories.forEach(c => {
+    c.spent = categorySpentMap[c.id] || 0;
+  });
 }
 
 // Theme Handling
@@ -1023,9 +1137,11 @@ function importDataBackup() {
 function updateSalarySettings() {
   const salVal = Number(document.getElementById('incomeInput').value);
   const savVal = Number(document.getElementById('savingsInput').value);
+  const cycleDay = Number(document.getElementById('cycleDayInput').value);
 
   appState.salary = isNaN(salVal) ? 0 : salVal;
   appState.savingsTarget = isNaN(savVal) ? 0 : savVal;
+  appState.cycleStartDay = isNaN(cycleDay) || cycleDay < 1 ? 1 : cycleDay;
 
   saveState();
   renderAll();
@@ -1094,8 +1210,6 @@ function handleAddExpense(e) {
   const cat = appState.categories.find(c => c.id === catId);
   if (!cat) return;
 
-  cat.spent += amt;
-
   const nowMs = Date.now();
   const newTx = {
     id: 'tx_' + nowMs,
@@ -1151,11 +1265,6 @@ function deleteCategory(catId) {
 function deleteTransaction(txId) {
   const txIndex = appState.transactions.findIndex(t => t.id === txId);
   if (txIndex !== -1) {
-    const tx = appState.transactions[txIndex];
-    const cat = appState.categories.find(c => c.id === tx.catId);
-    if (cat) {
-      cat.spent = Math.max(0, cat.spent - tx.amount);
-    }
     appState.transactions.splice(txIndex, 1);
     saveState();
     renderAll();
@@ -1197,11 +1306,11 @@ async function fetchGroqAIAnalysis() {
   }).join('\n');
 
   const promptMessage = `
-तू एक एक्सपर्ट फायनान्शियल प्लॅनर (Financial Advisor) आहेस. 'Kharcha Vahi' ॲप मधील युजरचा या महिन्याचा हिंसाब खालीलप्रमाणे आहे:
+तू एक एक्सपर्ट फायनान्शियल प्लॅनर (Financial Advisor) आहेस. 'Kharcha Vahi' ॲप मधील युजरचा या चालू सायकलीचा हिंसाब खालीलप्रमाणे आहे:
 
 - Salary / Monthly Income: ${formatINR(appState.salary)}
 - Savings Target: ${formatINR(appState.savingsTarget)}
-- Total Spent So Far: ${formatINR(totalSpent)}
+- Active Cycle Spent So Far: ${formatINR(totalSpent)}
 - Net Remaining Balance: ${formatINR(netRemaining)}
 
 Category-wise Breakdown:
@@ -1209,7 +1318,7 @@ ${catSummary}
 
 कृपया युजरला प्रोत्साहन देणारा आणि अतिशय व्यवहार्य असा 3 ते 4 मुद्यांचा मराठी / हिंग्लिश मध्ये स्पष्ट सल्ला दे.
 1. कोणत्या कॅटेगरीत खर्च जास्त होतोय (उदा. Petrol/Food/Shopping) आणि तिथे किती बचत होऊ शकते?
-2. पुढील 15 दिवसांत शिल्लक पैशांचे (Net Remaining) नियोजन कसे करावे?
+2. पुढील १५ दिवसांत शिल्लक पैशांचे (Net Remaining) नियोजन कसे करावे?
 3. Savings Target साध्य करण्यासाठी काय खबरदारी घ्यावी?
 उत्तर सोप्या, स्पष्ट आणि फ्रेंडली मराठीत असावे (Bullet points मध्ये).
 `;
@@ -1281,28 +1390,40 @@ ${catSummary}
 
 // Render Core Application
 function renderAll() {
+  // 1. Recalculate Active Category Spent based on Active Cycle Dates
+  recalculateActiveCategorySpent();
+
+  const cycleBounds = getActiveCycleBounds(appState.cycleStartDay || 1);
+
   document.getElementById('incomeInput').value = appState.salary || '';
   document.getElementById('savingsInput').value = appState.savingsTarget || '';
+  document.getElementById('cycleDayInput').value = appState.cycleStartDay || 1;
   document.getElementById('groqApiKeyInput').value = appState.groqApiKey || '';
 
+  // Cycle Banner Update
+  document.getElementById('activeCycleBanner').innerHTML = `
+    📅 Active Budget Cycle: <b>${cycleBounds.startLabel} to ${cycleBounds.endLabel}</b> 
+    <span style="font-weight:400; color:var(--text-muted);">(New chapter starts on ${cycleBounds.nextStartLabel})</span>
+  `;
+
   let totalAllocatedBudget = 0;
-  let totalSpent = 0;
+  let totalActiveSpent = 0;
 
   appState.categories.forEach(c => {
     totalAllocatedBudget += c.budget;
-    totalSpent += c.spent;
+    totalActiveSpent += c.spent;
   });
 
-  const netRemaining = appState.salary - totalSpent - appState.savingsTarget;
-  const spentPctOfBudget = totalAllocatedBudget > 0 ? Math.round((totalSpent / totalAllocatedBudget) * 100) : 0;
+  const netRemaining = appState.salary - totalActiveSpent - appState.savingsTarget;
+  const spentPctOfBudget = totalAllocatedBudget > 0 ? Math.round((totalActiveSpent / totalAllocatedBudget) * 100) : 0;
 
   // Stats UI
   document.getElementById('statSalary').textContent = formatINR(appState.salary);
   document.getElementById('statAllocated').textContent = formatINR(totalAllocatedBudget);
   document.getElementById('statAllocatedSub').textContent = `Savings: ${formatINR(appState.savingsTarget)}`;
   
-  document.getElementById('statSpent').textContent = formatINR(totalSpent);
-  document.getElementById('statSpentPct').textContent = `${spentPctOfBudget}% of budget`;
+  document.getElementById('statSpent').textContent = formatINR(totalActiveSpent);
+  document.getElementById('statSpentPct').textContent = `${spentPctOfBudget}% of active cycle`;
   
   const remEl = document.getElementById('statRemaining');
   remEl.textContent = formatINR(netRemaining);
@@ -1363,7 +1484,7 @@ function renderCategoryMonitor() {
           <div class="category-icon">${c.icon}</div>
           <div style="min-width:0; flex:1;">
             <div class="category-name">${c.name}</div>
-            <div style="font-size:12px; color:var(--text-muted);">Spent: <b>${formatINR(c.spent)}</b></div>
+            <div style="font-size:12px; color:var(--text-muted);">Active Spent: <b>${formatINR(c.spent)}</b></div>
           </div>
         </div>
         <div class="category-budget-input">
@@ -1402,7 +1523,8 @@ function renderExpenseLog() {
   const now = new Date();
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6).getTime();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  
+  const cycleBounds = getActiveCycleBounds(appState.cycleStartDay || 1);
 
   const filteredTx = appState.transactions.filter(t => {
     let txTime = t.timestamp;
@@ -1417,17 +1539,17 @@ function renderExpenseLog() {
 
     if (currentHistoryFilter === 'day') return txTime >= startOfToday;
     if (currentHistoryFilter === 'week') return txTime >= startOfWeek;
-    if (currentHistoryFilter === 'month') return txTime >= startOfMonth;
+    if (currentHistoryFilter === 'month') return txTime >= cycleBounds.startMs && txTime <= cycleBounds.endMs;
     return true; // 'all'
   });
 
   let filterTotalSpent = 0;
   filteredTx.forEach(t => filterTotalSpent += t.amount);
 
-  let filterLabelText = 'All Time';
+  let filterLabelText = 'All Time History (संपूर्ण इतिहास)';
   if (currentHistoryFilter === 'day') filterLabelText = 'Today (आजचा खर्च)';
   if (currentHistoryFilter === 'week') filterLabelText = 'This Week (या आठवड्याचा खर्च)';
-  if (currentHistoryFilter === 'month') filterLabelText = 'This Month (या महिन्याचा खर्च)';
+  if (currentHistoryFilter === 'month') filterLabelText = `Active Cycle (${cycleBounds.startLabel} - ${cycleBounds.endLabel})`;
 
   summaryBox.innerHTML = `Showing <b>${filteredTx.length}</b> transactions for <b>${filterLabelText}</b> • Total Spent: <b style="color:var(--accent-red);">${formatINR(filterTotalSpent)}</b>`;
 

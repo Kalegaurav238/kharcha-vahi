@@ -1092,7 +1092,7 @@ function confirmResetAll() {
 
 // Groq AI Integration Function
 async function fetchGroqAIAnalysis() {
-  const apiKey = appState.groqApiKey || DEFAULT_GROQ_KEY;
+  const apiKey = (appState.groqApiKey || (typeof CONFIG !== 'undefined' ? CONFIG.GROQ_API_KEY : '') || DEFAULT_GROQ_KEY || '').trim();
   if (!apiKey) {
     alert('कृपया आधी Groq API Key टाका!');
     return;
@@ -1134,7 +1134,7 @@ ${catSummary}
 `;
 
   try {
-    const modelsToTry = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-70b-8192', 'gemma2-9b-it'];
+    const modelsToTry = ['llama-3.1-8b-instant', 'llama3-70b-8192', 'gemma2-9b-it', 'llama-3.2-3b-preview'];
     let aiResponseText = null;
     let lastErr = null;
 
@@ -1166,10 +1166,10 @@ ${catSummary}
         } else {
           const errData = await response.json().catch(() => ({}));
           const errMsg = errData.error ? errData.error.message : `HTTP ${response.status}`;
-          if (!lastErr) lastErr = errMsg;
+          lastErr = errMsg;
         }
       } catch (err) {
-        if (!lastErr) lastErr = err.message;
+        lastErr = err.message;
       }
     }
 

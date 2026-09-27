@@ -1134,7 +1134,14 @@ ${catSummary}
 `;
 
   try {
-    const modelsToTry = ['llama-3.1-8b-instant', 'llama3-70b-8192', 'gemma2-9b-it', 'llama-3.2-3b-preview'];
+    const modelsToTry = [
+      'openai/gpt-oss-20b',
+      'openai/gpt-oss-120b',
+      'llama-3.1-8b-instant',
+      'llama3-70b-8192',
+      'qwen/qwen3.8-27b',
+      'gemma2-9b-it'
+    ];
     let aiResponseText = null;
     let lastErr = null;
 
